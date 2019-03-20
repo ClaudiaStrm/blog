@@ -1,7 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const router = require('./routes/index')
-const Sequelize = require('sequelize')
 const database = require('./database')
 const { PORT } = require('./settings')
 

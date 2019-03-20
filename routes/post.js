@@ -1,7 +1,8 @@
 const db = require('../db/db')
+const Post = require('../models/post')
 
 class Posts { 
-  buscarTodos = (Post) => (req, res) => {
+  buscarTodos (req, res) {
     return Post.findAll({ 
       order: ['data', 'ASC']
     }).then(posts => {
@@ -9,7 +10,7 @@ class Posts {
     }).catch(err => console.log(err))
   }
 
-  buscarPorId = Post => (req, res) => {
+  buscarPorId(req, res) {
     return Post.findOne({
       where: {
         id: req.params.post_id
@@ -20,24 +21,20 @@ class Posts {
     }).catch(err => console.log(err))
   }
 
-  criar = Post => (req, res) => {
-    return Post.create({
-      
-    })
-    const post = {
-      id: db.length + 1,
+  criar(req, res) {    
+    const post = { 
       titulo: req.body.titulo, 
       texto: req.body.texto,
       autora: 'Claudia SM',
       data: new Date().toLocaleString()
-    }  
+    }
 
-    if (!req.body.titulo) return (res.send('Titulo obrigatório'))
-    if (!req.body.texto) return (res.send('Texto obrigatório'))
-
-    db.push(post)
-    res.send({ posts: db })
-  }
+    Post.create()
+    .then(post => {
+      console.log("POST: " + post);      
+      res.send(post)
+    }).catch(err => console.log(err))
+  }  
 
   editar(req, res) {
     const id = parseInt(req.params.id, 10)
