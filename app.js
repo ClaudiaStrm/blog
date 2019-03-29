@@ -3,8 +3,8 @@ const bodyParser = require('body-parser')
 const database = require('./database')
 const { PORT } = require('./settings')
 
-const modelsInitializer = require ('./models')
-const routesInitializer = require ('./routes')
+const modelsInitializer = require ('./src/models')
+const routesInitializer = require ('./src/routes')
 
 const app = express()
 const databaseConnection = database.connect()
@@ -18,10 +18,13 @@ const startApplication = () => {
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use('/', routes)
 
+  app.get('/api/mensagem', (req, res) => {
+    res.send({ express: 'Hello From Express' });
+  });
+
   app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${ PORT }`)  
   })
-
 }
 
 databaseConnection

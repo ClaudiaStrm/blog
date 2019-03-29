@@ -3,7 +3,9 @@ module.exports = Post => (req, res) => {
   .create({
     titulo: req.body.titulo, 
     texto: req.body.texto,
-    autora: 'Claudia SM'
+    autora: 'Claudia SM',
+    dataCriacao: new Date().getTime(),
+    dataModificacao: new Date().getTime()
   })
   .then(post => {
     res.send(post)
