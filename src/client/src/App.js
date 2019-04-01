@@ -1,22 +1,20 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
 import './App.css'
 
 class App extends Component {
   state = {
-    response: ''
+    posts: []
   }
 
   componentDidMount() {
     this.callApi()
-    .then(res => this.setState({ response: res.express }))
+    .then(response => this.setState({ posts: response }))
     .catch(err => console.log(err))
   }
 
   callApi = async() => {
-    const response = await fetch('/api/mensagem')
+    const response = await fetch('/api/listar')
     const body = await response.json()
-    console.log(body);
     
     if (response.status !== 200) throw Error(body.message)
 
@@ -24,13 +22,20 @@ class App extends Component {
   }
 
   render() {
+    const { posts } = this.state
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Oir</h1>
         </header>
-        <p className="App-intro">{ this.state.response }</p>
+        <ul className="posts">
+          { posts.map(post => 
+            <li key={ post.id } className="item-post">
+              <h2 className="titulo-post">{ post.titulo }</h2>
+              <p className="texto-post">{ post.texto }</p>
+            </li>
+          )}
+        </ul>
       </div>
     )
   }
